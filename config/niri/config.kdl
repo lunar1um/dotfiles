@@ -12,7 +12,7 @@ input {
 
 output "eDP-1" {
     mode "1920x1080@120.030"
-    scale 1
+    scale 1.25
     transform "normal"
 }
 
@@ -21,41 +21,52 @@ overview {
     off
   }
 
-  zoom 0.5
+  zoom 0.65
 }
 
 layout {
-    gaps 16
+    gaps 30
     center-focused-column "never"
     default-column-width { proportion 0.5; }
     background-color "transparent"
 
     focus-ring {
-      off
+      width 2
+
+      active-color "#ebbcba"
     }
 
     border {
       off
     }
 
+    insert-hint {
+     color "#ebbcba70"
+    }
+
     shadow {
         on
-        softness 20
-        spread 8
+        softness 30
+        spread 4
         offset x=0 y=0
         color "#000A"
         inactive-color "#000A"
-        draw-behind-window true
+        draw-behind-window false
     }
 }
 
-// startup
-// spawn-at-startup "waybar"
+window-rule {
+    geometry-corner-radius 10
+    clip-to-geometry true
+}
+
 spawn-at-startup "dunst"
 spawn-at-startup "fcitx5"
 spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
-spawn-at-startup "swaybg" "-i" "/home/lunaris/Wallpapers/a_fish.jpg" "-m" "fill"
+spawn-at-startup "swaybg" "-i" "/home/lunaris/Wallpapers/rosepine.png" "-m" "fill"
 spawn-at-startup "ags" "run" "/home/lunaris/.config/ags/app.tsx"
+spawn-at-startup "wlsunset" "-l" "21.0285" "-L" "105.8542" "-t" "4600" "-T" "6500"
+spawn-at-startup "snixembed"
 
 hotkey-overlay {
   skip-at-startup
@@ -65,13 +76,33 @@ prefer-no-csd
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
 animations {
+  workspace-switch {
+    spring damping-ratio=0.8 stiffness=300 epsilon=0.0001
+  }
+
+  horizontal-view-movement {
+    spring damping-ratio=0.9 stiffness=300 epsilon=0.0001
+  }
+
+  window-movement {
+    spring damping-ratio=0.65 stiffness=300 epsilon=0.0001
+  }
+
+  overview-open-close {
+    spring damping-ratio=0.7 stiffness=250 epsilon=0.0001
+  }
+
+  screenshot-ui-open {
+    duration-ms 500
+  }
+
   window-open {
     duration-ms 400
     curve "cubic-bezier" 0.68 -0.55 0.265 1.55
   }
 
   window-close {
-    duration-ms 200
+    duration-ms 500
     curve "cubic-bezier" 0.68 -0.55 0.265 1.55
   }
 }
@@ -81,15 +112,29 @@ layer-rule {
 
   shadow {
         on
-        softness 10
-        spread 8
+        softness 30
+        spread 4
         offset x=0 y=0
         color "#000A"
         inactive-color "#000A"
         draw-behind-window false
     }
 
-    geometry-corner-radius 12
+    geometry-corner-radius 10
+}
+
+recent-windows {
+  highlight {
+    padding 30
+    corner-radius 10
+    active-color "#403d52ff"
+    urgent-color "#ebbcbaff"
+  }
+
+  previews {
+    max-height 400
+    max-scale 0.6
+  }
 }
 
 window-rule {
@@ -100,17 +145,36 @@ window-rule {
   open-floating true
 }
 
+layer-rule {
+  match namespace="notifications"
+  match namespace="rofi"
+
+  shadow {
+    on
+    softness 30
+    spread 4
+    offset x=0 y=0
+    color "#000A"
+    inactive-color "#000A"
+    draw-behind-window true
+  }
+
+  geometry-corner-radius 10
+}
+
+window-rule {
+  match app-id=r#"fetch$"#
+  
+  open-floating true
+  max-width 444
+  max-height 548
+}
+
 window-rule {
   match app-id=r#"org.pulseaudio.pavucontrol$"#
 
   min-width 890
   min-height 520
-}
-
-window-rule {
-  match app-id=r#"org.gnome.Nautilus$"#
-
-  opacity 0.7
 }
 
 layer-rule {
@@ -125,23 +189,14 @@ window-rule {
     block-out-from "screen-capture"
 }
 
-window-rule {
-    geometry-corner-radius 12
-    clip-to-geometry true
-}
-
 binds {
-    Mod+Shift+Slash { show-hotkey-overlay; }
-
     // programs
     Mod+Return hotkey-overlay-title="Open terminal" { spawn "kitty"; }
-    // rofi -show drun if you want
-    Mod+Space hotkey-overlay-title="Open app launcher" { spawn "sherlock"; }
-    Mod+L { spawn "swaylock"; }
-    Mod+E hotkey-overlay-title="Open file explorer" { spawn "nautilus"; }
+    Mod+Space hotkey-overlay-title="Open app launcher" { spawn "rofi" "-show" "drun"; }
+    Mod+E hotkey-overlay-title="Open file explorer" { spawn "thunar"; }
     Mod+W { spawn "ags" "toggle" "PowerMenu" "-i" "ags"; }
-    Mod+V { spawn-sh "cliphist list | rofi -dmenu | cliphist decode | wl-copy"; }
-    Mod+J { spawn-sh "emoji-selector.sh"; }
+    Mod+V { spawn-sh "cliphist list | rofi -dmenu -display-columns 2 | cliphist decode | wl-copy"; }
+    Mod+T { spawn-sh "emoji-selector.sh"; }
     Mod+Alt+S { spawn "lazyfav"; }
     Mod+R { spawn "recorder.sh"; }
 
@@ -153,12 +208,11 @@ binds {
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
 
     Mod+O repeat=false { toggle-overview; }
-
     Mod+Q repeat=false { close-window; }
 
-    Mod+Left  { focus-column-left; }
-    Mod+Down  { focus-workspace-down; }
-    Mod+Up    { focus-workspace-up; }
+    Mod+Left { focus-column-left; }
+    Mod+Down { focus-workspace-down; }
+    Mod+Up { focus-workspace-up; }
     Mod+Right { focus-column-right; }
 
     Mod+Shift+Left  { move-column-left; }

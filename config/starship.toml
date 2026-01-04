@@ -1,0 +1,131 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+format = """
+$username\
+$directory\
+$git_branch\
+$git_status\
+$fill\
+$c\
+$golang\
+$java\
+$nodejs\
+$rust\
+$python\
+$time\n  \
+[󱞪](fg:green) \
+"""
+palette = "rosepine"
+
+[palettes.everforest]
+fg = '#d3c6aa'
+red = '#e67e80'
+orange = '#e69875'
+yellow = '#dbbc7f'
+green = 'a7c080'
+teal = '#83c092'
+blue = '#7fbbb3'
+purple = '#d699b6'
+gray_1 = '#7a8478'
+gray_2 = '#859289'
+gray_3 = '#9da9a0'
+
+[palettes.rosepine]
+fg = '#e0def4'
+red = '#eb6f92'
+orange = '#ea9d34'
+yellow = '#f6c177'
+green = '#31748f'
+teal = '#ebbcba'
+blue = '#9ccfd8'
+purple = '#c4a7e7'
+gray_1 = '#908caa'
+gray_2 = '#6e6a86'
+gray_3 = '#403d52'
+
+
+[directory]
+format = "[ $path ]($style)[>](fg:gray_3)"
+style = "fg:blue"
+truncation_length = 3
+truncation_symbol = ""
+
+[directory.substitutions]
+Documents = "󰈙"
+Downloads = " "
+Music = " "
+Pictures = " "
+
+[fill]
+style = "fg:fg"
+symbol = " "
+
+[git_branch]
+format = "[ $symbol $branch]($style) "
+style = "fg:purple"
+symbol = ""
+
+[git_status]
+disabled = false
+style = "fg:orange"
+format = '([$all_status$ahead_behind]($style)) '
+up_to_date = '[✓](fg:teal)'
+untracked = '[?\($count\)](fg:orange)'
+stashed = '[\$](fg:purple)'
+modified = '[!\($count\)](fg:teal)'
+renamed = '[»\($count\)](fg:yellow)'
+deleted = '[✘\($count\)](style)'
+staged = '[++\($count\)](fg:blue)'
+ahead = '[⇡\(${count}\)](fg:gray_1)'
+diverged = '⇕[\[](fg:purple)[⇡\(${ahead_count}\)](fg:blue)[⇣\(${behind_count}\)](fg:yellow)[\]](fg:purple)'
+behind = '[⇣\(${count}\)](fg:orange)'
+
+[time]
+disabled = false
+format = " [ $time  ]($style)"
+style = "fg:teal"
+time_format = "%I:%M%P"
+use_12hr = true
+
+[username]
+disabled = false
+format = "[  $user]($style) [>](fg:gray_3)"
+show_always = true
+style_root = "fg:red"
+style_user = "fg:teal"
+
+# languages
+[c]
+style = "fg:blue"
+format = " [ $symbol$version]($style) [>](fg:gray_3)"
+disabled = false
+symbol = " "
+
+[golang]
+style = "fg:teal"
+format = " [ $symbol$version]($style) [>](fg:gray_3)"
+disabled = false
+symbol = " "
+
+[java]
+style = "fg:red"
+format = " [ $symbol$version]($style) [>](fg:gray_3)"
+disabled = false
+symbol = " "
+
+[nodejs]
+style = "fg:green"
+format = " [ $symbol$version]($style) [>](fg:gray_3)"
+disabled = false
+symbol = "󰎙 "
+
+[rust]
+style = "fg:orange"
+format = " [ $symbol$version]($style) [>](fg:gray_3)"
+disabled = false
+symbol = " "
+
+[python]
+style = "fg:blue"
+format = " [ $symbol$version]($style) [>](fg:gray_3)"
+disabled = false
+symbol = ' '

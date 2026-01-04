@@ -30,46 +30,13 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
-vim.api.nvim_create_user_command("Q", function()
-  local buftype = vim.bo.buftype
-  if buftype ~= "" then
-    vim.cmd("quit")
-    return
-  end
-
-  local bufs = vim.fn.getbufinfo({ buflisted = 1 })
-
-  if #bufs <= 1 and not vim.bo.modified then
-    vim.cmd("Dashboard")
-  else
-    vim.cmd("quit")
-  end
-end, {})
-
-vim.api.nvim_create_user_command("X", function()
-  local buftype = vim.bo.buftype
-  if buftype ~= "" then
-    vim.cmd("quit")
-    return
-  end
-
-  local bufs = vim.fn.getbufinfo({ buflisted = 1 })
-
-  if #bufs <= 1 and not vim.bo.modified then
-    vim.cmd("write | Dashboard")
-  else
-    vim.cmd("xit")
-  end
-end, {})
-
-vim.cmd("cnoreabbrev q Q")
-vim.cmd("cnoreabbrev x X")
+vim.keymap.set('n', '<leader>h', '<cmd>nohlsearch<CR>')
 
 require("lazy").setup({
   spec = {
     { import = "plugins" },
   },
-  install = { missing = true, colorscheme = { "everforest" } },
+  install = { missing = true, colorscheme = { "rose-pine" } },
   checker = { enabled = true },
   ui = {
     size = { width = 1, height = 1 },
