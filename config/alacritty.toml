@@ -1,0 +1,11 @@
+[window]
+padding = { x = 10, y = 7 }
+dynamic_padding = true
+
+[font]
+normal = { family = "CozetteVector" }
+size = 15.0
+offset = { x = 0, y = 12 }
+
+[cursor]
+style = { shape = "Beam", blinking = "Always" }
